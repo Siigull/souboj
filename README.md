@@ -31,6 +31,11 @@ dist/         vygenerovaný web (nevkládat do gitu)
   `"results"` — zobrazí se jako odkaz na turnaj; po odehrání doplňte
   `"results"` a listina se zobrazí sama
 - **termíny, ceny, texty** → `data.py` → `SCHEDULE`, `INTRO_PARAGRAPHS`
+- **odpočet do dalšího turnaje** → `data.py` → `COUNTDOWN` (starty kol
+  včetně časové zóny a odkazy na registraci; sekce pod úvodním logem
+  přežívá `next` = odpočet + registrace, `live` = „právě se hraje" +
+  živé výsledky, `done` = výsledky série — bez JavaScriptu se použije
+  stav zjištěný v okamžiku sestavení)
 - **odkazy a loga** → `data.py` → `CONTACTS`
 - **strukturovaná data pro vyhledávače (JSON-LD)** → `data.py` → `JSONLD`
 
@@ -48,3 +53,7 @@ v `assets/css/main.css`).
   `<title>` (soubor → souboj), pravopis "Martin Benovič" a "Matej Kubík"
   v mobilních listinách a pořadí 5. kola (původní web uváděl jiného
   vítěze na desktopu a na mobilu; platí desktopová listina).
+- Sekce s odpočtem vychází vizuálně z turnajového plakátu (`poster.svg`
+  v kořenu): antracitový pruh s krémovou typografií a výřez ilustrace
+  herny (`assets/images/sborovna-scene.svg`, vytvořený z `poster.svg`
+  změnou `viewBox` — po změně plakátu jej přegenerujte stejným postupem).

@@ -16,6 +16,7 @@ import argparse
 import html
 import json
 import shutil
+from datetime import datetime, timedelta, timezone
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 
@@ -80,6 +81,121 @@ def render_nav():
 
 def render_intro():
     return f"""<section id="intro" class="intro-section bgr-color dark"><div class="section-bgr"><img src="images/KSU-logotype.svg" loading="lazy" alt="Logo: Kulečníkový souboj univerzit" class="hero-image"/><img src="images/KSU-logotype-vertical.svg" loading="lazy" alt="Logotyp: kulečníkový souboj univerzit" class="hero-image mobile"/></div></section>"""
+
+
+# ---------------------------------------------------------------------------
+# Odpočet do dalšího turnaje (pás z ilustrace poster.svg)
+# ---------------------------------------------------------------------------
+
+def _countdown_state():
+    """Podle data sestavení vrátí stav sekce — předvyplnění pro uživatele
+    bez JavaScriptu (JS stav poté každou sekci přepočítá sám).
+    Vrací (stav, index_turnaje) — stav: "next" / "live" / "done"."""
+    cd = data.COUNTDOWN
+    now = datetime.now(timezone.utc)
+    window = timedelta(hours=cd["running_window_hours"])
+    for i, t in enumerate(cd["tournaments"]):
+        start = datetime.fromisoformat(t["start"])
+        if start <= now < start + window:
+            return "live", i
+    for i, t in enumerate(cd["tournaments"]):
+        if datetime.fromisoformat(t["start"]) > now:
+            return "next", i
+    return "done", len(cd["tournaments"]) - 1
+
+
+def _fmt_start(iso):
+    """„neděle 4. 10. v 17.30“ — stejné formátování jako countdown.js."""
+    weekdays = ["pondělí", "úterý", "středa", "čtvrtek", "pátek", "sobota", "neděle"]
+    d = datetime.fromisoformat(iso)
+    return f"{weekdays[d.weekday()]} {d.day}. {d.month}. v {d.hour}.{d.minute:02d}"
+
+
+def render_countdown():
+    cd = data.COUNTDOWN
+    state, idx = _countdown_state()
+    t = cd["tournaments"][idx]
+
+    # Předvyplnění textů podle stavu v okamžiku sestavení.
+    if state == "next":
+        eyebrow = cd["eyebrow_next"]
+        caption = f"{t['name']} — {_fmt_start(t['start'])} • {cd['venue']}"
+        cta_href, cta_label = t["url"], cd["register_label"]
+        countdown_hidden = ""
+        headline_hidden = " hidden"
+        dot_hidden = ""
+        headline = ""
+    elif state == "live":
+        eyebrow = cd["eyebrow_live"]
+        caption = cd["live_caption"]
+        cta_href, cta_label = t["url"], cd["live_label"]
+        countdown_hidden = " hidden"
+        headline_hidden = ""
+        dot_hidden = ""
+        headline = cd["live_title"]
+    else:
+        eyebrow = cd["eyebrow_done"]
+        caption = cd["done_caption"]
+        cta_href, cta_label = cd["results_url"], cd["done_label"]
+        countdown_hidden = " hidden"
+        headline_hidden = ""
+        dot_hidden = " hidden"
+        headline = cd["done_title"]
+
+    # Statický odpočet (pro stav "next") z data sestavení.
+    digits = {"days": "00", "hours": "00", "minutes": "00", "seconds": "00"}
+    if state == "next":
+        total = int((datetime.fromisoformat(t["start"]) - datetime.now(timezone.utc)).total_seconds())
+        total = max(0, total)
+        digits = {
+            "days": f"{total // 86400:02d}",
+            "hours": f"{total % 86400 // 3600:02d}",
+            "minutes": f"{total % 3600 // 60:02d}",
+            "seconds": f"{total % 60:02d}",
+        }
+
+    units = []
+    labels = {"days": ["den", "dny", "dní"], "hours": ["hodina", "hodiny", "hodin"],
+              "minutes": ["minuta", "minuty", "minut"], "seconds": ["sekunda", "sekundy", "sekund"]}
+    for key in ("days", "hours", "minutes", "seconds"):
+        n = int(digits[key])
+        plural = labels[key][0] if n == 1 else (labels[key][1] if 2 <= n <= 4 else labels[key][2])
+        spans = "".join(f"<span>{d}</span>" for d in digits[key])
+        units.append(
+            f'<div class="cd-unit"><div class="cd-num" data-unit="{key}">{spans}</div>'
+            f'<div class="cd-label" data-label="{key}">{plural}</div></div>'
+        )
+    countdown = (
+        f'<div class="band-countdown" data-countdown role="timer"{countdown_hidden}>'
+        + '<div class="cd-colon" aria-hidden="true">:</div>'.join(units)  # oddělovače mezi jednotkami
+        + "</div>"
+    )
+
+    headline_block = (
+        f'<div class="band-headline" data-headline{headline_hidden}>'
+        f'<span class="live-dot" data-live-dot{dot_hidden}></span>'
+        f'<h2 class="headline-title" data-headline-text>{e(headline)}</h2></div>'
+    )
+
+    # Řada termínů — JS podle času přidá třídy is-past / is-next / is-future.
+    now = datetime.now(timezone.utc)
+    date_spans = []
+    for i, t_ in enumerate(cd["tournaments"]):
+        start = datetime.fromisoformat(t_["start"])
+        cls = "is-future"
+        if start <= now:
+            cls = "is-past"
+        elif i == idx and state == "next":
+            cls = "is-next"
+        date_spans.append(f'<span class="band-date {cls}" data-date="{i}">{e(t_["date_label"])}</span>')
+    dates = '<span class="band-date-sep" aria-hidden="true">•</span>'.join(date_spans)
+
+    schedule = json.dumps(
+        [{"name": t_["name"], "start": t_["start"], "url": t_["url"]} for t_ in cd["tournaments"]],
+        ensure_ascii=False,
+    )
+
+    return f"""<section class="tournament-section" data-venue="{e(cd['venue'])}" data-results-url="{e(cd['results_url'])}" data-running-hours="{cd['running_window_hours']}" data-eyebrow-next="{e(cd['eyebrow_next'])}" data-eyebrow-live="{e(cd['eyebrow_live'])}" data-eyebrow-done="{e(cd['eyebrow_done'])}" data-caption-live="{e(cd['live_caption'])}" data-caption-done="{e(cd['done_caption'])}" data-live-title="{e(cd['live_title'])}" data-done-title="{e(cd['done_title'])}" data-register-next="{e(cd['register_label'])}" data-register-live="{e(cd['live_label'])}" data-register-done="{e(cd['done_label'])}"><div id="turnaj" class="section-anchor"></div><div class="scene" aria-hidden="true"><img src="images/sborovna-scene.svg" loading="lazy" alt="" class="scene-img"/></div><div class="band"><div class="container band-content"><p class="band-eyebrow"><span class="ball-8" aria-hidden="true"><span class="ball-8-disc">8</span></span><span data-eyebrow>{e(eyebrow)}</span></p>{countdown}{headline_block}<p class="band-caption" data-caption>{e(caption)}</p><a class="band-cta" data-register href="{e(cta_href)}" target="_blank" rel="noopener"><span data-register-label>{e(cta_label)}</span><span class="cta-arrow" aria-hidden="true">→</span></a></div><div class="container band-footer"><div class="band-dates" data-dates>{dates}</div><img src="images/Sborovna.svg" loading="lazy" alt="Logotyp herna Sborovna" class="band-logo"/></div></div><script type="application/json" id="tournament-schedule">{schedule}</script></section>"""
 
 
 def render_info():
@@ -204,6 +320,7 @@ def render_page():
 {render_nav()}
 <div class="main-wrapper">
 {render_intro()}
+{render_countdown()}
 {render_info()}
 {render_schedule()}
 {render_results()}
@@ -211,6 +328,7 @@ def render_page():
 </div>
 </div>
 <script src="js/tabs.js" defer></script>
+<script src="js/countdown.js" defer></script>
 </body>
 </html>
 """

@@ -1,0 +1,1 @@
+Add embed into the site for cmbs if the tournament is currently running.

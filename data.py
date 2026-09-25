@@ -33,6 +33,59 @@ NAV = [
 
 INTRO_HEADING = "bojujte za svou univerzitu"
 
+# ---------------------------------------------------------------------------
+# Turnaj — odpočet do dalšího kola (sekce hned pod úvodním logem)
+# ---------------------------------------------------------------------------
+# - V prohlížeči počítá assets/js/countdown.js podle rozvrhu, který build.py
+#   vygeneruje z těchto dat (element <script id="tournament-schedule">).
+# - Stavy sekce: před turnajem (odpočet + registrace) / turnaj probíhá
+#   (živé výsledky) / po odehrání všech kol (výsledky série).
+# - build.py zároveň podle data sestavení předvyplní statickou variantu
+#   pro návštěvníky bez JavaScriptu.
+
+COUNTDOWN = {
+    "running_window_hours": 6,  # jak dlouho po startu se stav „probíhá“
+    "venue": "Sborovna, Botanická 1, Brno",
+    "results_url": "https://vysledky.cmbs.cz/tournament-series/825",
+    "register_label": "registrace",
+    "live_label": "živé výsledky",
+    "done_label": "výsledky série",
+    "eyebrow_next": "buď u toho • další turnaj série",
+    "eyebrow_live": "kulečníkový souboj univerzit",
+    "eyebrow_done": "kulečníkový souboj univerzit",
+    "live_title": "právě se hraje",
+    "live_caption": "rozlosování a výsledky sledujte živě na vysledky.cmbs.cz",
+    "done_title": "série je u konce",
+    "done_caption": "děkujeme všem, kdo bojovali za svou univerzitu",
+    "tournaments": [
+        {
+            "name": "1. kolo",
+            "date_label": "4. 10.",
+            "start": "2026-10-04T17:30:00+02:00",
+            "url": "https://vysledky.cmbs.cz/tournaments/3471",
+        },
+        {
+            "name": "2. kolo",
+            "date_label": "25. 10.",
+            "start": "2026-10-25T17:30:00+01:00",
+            "url": "https://vysledky.cmbs.cz/tournaments/3472",
+        },
+        {
+            "name": "3. kolo",
+            "date_label": "15. 11.",
+            "start": "2026-11-15T17:30:00+01:00",
+            "url": "https://vysledky.cmbs.cz/tournaments/3473",
+        },
+        {
+            "name": "4. kolo",
+            "date_label": "6. 12.",
+            "start": "2026-12-06T17:30:00+01:00",
+            "url": "https://vysledky.cmbs.cz/tournaments/3474",
+        },
+    ],
+}
+
+
 INTRO_PARAGRAPHS = [
     "Otevřená série pěti turnajů pro studenty MUNI a VUT ročníku 2025/2026. "
     "Hráči mohou být aktivními členy ČMBS.",
@@ -174,6 +227,7 @@ CONTACTS = {
     "links": [
         {"label": "vysledky.cmbs.cz", "href": "https://vysledky.cmbs.cz/tournament-series/825"},
         {"label": "Facebook", "href": "https://www.facebook.com/KSUbrno/"},
+        {"label": "Telefon", "href": "+420 732 635 862"}
     ],
     "organizer": {"label": "DELTA Billiard Brno", "href": "https://www.skdeltabilliard.cz/"},
     "venue": {"label": "Sborovna, Botanická 1, Brno", "href": "https://maps.app.goo.gl/g8CgVayHXHxy88f68"},
@@ -183,7 +237,7 @@ CONTACTS = {
         {"image": "images/VUT.svg", "href": "https://www.vut.cz/", "alt": "Logotyp VUT", "css_class": "logo-vut"},
         {"image": "images/Sborovna.svg", "href": "https://sborovnabrno.cz/", "alt": "Logotyp Sborovna", "css_class": "logo-delta"},
     ],
-    "footer": ["© 2026 DELTA Billiard Brno", "Design: Jakub Rendla"],
+    "footer": ["© 2026 DELTA Billiard Brno", "Design: Jakub Rendla, Daniel Pelánek"],
 }
 
 # ---------------------------------------------------------------------------
