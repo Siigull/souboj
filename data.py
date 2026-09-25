@@ -103,7 +103,7 @@ JARO_ROUNDS = [
         "name": "3. kolo",
         "url": "https://vysledky.cmbs.cz/tournaments/3227",
         "results": {
-            "vut": ["1. Martin Benovič", "3. Viktor Holanec", "3. Matyáš Telecký"],
+            "vut": ["1. Martin Benovič", "3. Viktor Holanec", "4. Matyáš Telecký"],
             "muni": ["2. Erik Smetana", "5. Zdeněk Vychodil", "5. Tomáš Kasza"],
         },
     },
@@ -119,7 +119,7 @@ JARO_ROUNDS = [
         "name": "5. kolo",
         "url": "https://vysledky.cmbs.cz/tournaments/3229",
         "results": {
-            "vut": ["1. Daniel Pelánek", "2. Viktor Holanec"],
+            "vut": ["1. Viktor Holanec", "2. Daniel Pelánek"],
             "muni": ["5. Ciarán O’Tuathail", "6. Matej Kubík"],
         },
     },
