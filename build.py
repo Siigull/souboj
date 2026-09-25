@@ -123,34 +123,36 @@ def round_heading(round_):
 
 
 def render_round_block(round_, uni_key):
-    rows = "".join(f'<p class="text-300">{e(r)}</p>' for r in round_["results"][uni_key])
+    """Blok kola ve sloupci dané univerzity — listina jejích hráčů
+    (dokud kolo neproběhlo, samostatný odkaz na turnaj)."""
+    rows = "".join(f'<p class="text-300">{e(r)}</p>' for r in round_.get("results", {}).get(uni_key, []))
+    body = f'<div class="flex-v supertight">{rows}</div>' if rows else ""
     return (
-        f'<div class="flex-v tight desktop"><h3 class="display-2 txt-color dark">{round_heading(round_)}</h3>'
-        f'<div class="flex-v supertight">{rows}</div></div>'
+        f'<div class="flex-v tight desktop"><h3 class="display-2 txt-color dark">{round_heading(round_)}</h3>{body}</div>'
     )
 
 
 def render_mobile_block(round_):
+    """Sloučená listina obou univerzit (mobil) — nebo samotný odkaz
+    na turnaj, dokud kolo neproběhlo."""
     rows = "".join(f'<p class="text-300">{e(r)}</p>' for r in mobile_rows(round_))
+    body = f'<div class="flex-v supertight">{rows}</div>' if rows else ""
     return (
-        f'<div class="flex-v tight mobile"><h3 class="display-2 txt-color dark">{round_heading(round_)}</h3>'
-        f'<div class="flex-v supertight">{rows}</div></div>'
+        f'<div class="flex-v tight mobile"><h3 class="display-2 txt-color dark">{round_heading(round_)}</h3>{body}</div>'
     )
 
 
 def render_season_pane(season, index):
-    # Pořadí v DOM určuje rozložení mřížky (CSS auto-placement):
-    # desktop = [vut | MUNI] a pod tím řádky [VUT | MUNI] pro každé kolo,
-    # mobil (<= 479 px) = vše pod sebou, desktopové bloky se skryjí.
+    # Každé kolo se vykreslí do obou školních sloupců (vlevo vut, vpravo MUNI)
+    # a jako sloučená mobilní listina. Kola bez výsledků mají jen nadpis-odkaz.
     grid_blocks = [
         render_score_block("vut", season),
         render_score_block("muni", season),
     ]
-    if season.get("rounds_on_desktop"):
-        for round_ in season["rounds"]:
-            grid_blocks.append(render_round_block(round_, "vut"))
-            grid_blocks.append(render_round_block(round_, "muni"))
-    grid_blocks.extend(render_mobile_block(round_) for round_ in season["rounds"])
+    for round_ in season["rounds"]:
+        grid_blocks.append(render_round_block(round_, "vut"))
+        grid_blocks.append(render_round_block(round_, "muni"))
+        grid_blocks.append(render_mobile_block(round_))
     grid = "".join(grid_blocks)
     active = " w--tab-active" if index == 0 else ""
     return f"""<div id="tab-{index}" role="tabpanel" class="w-tab-pane{active}"><div class="flex-v"><div class="subheader-wrapper"><h3 class="display-2 txt-color dark">skóre univerzit (AVG)</h3></div><div class="grid-2">{grid}</div></div><div class="flex-v"><div class="subheader-wrapper"><h3 class="display-2 txt-color dark">MVP série</h3></div><div class="flex-v supertight"><p class="text-500">{e(season['mvp'])}</p></div></div></div>"""

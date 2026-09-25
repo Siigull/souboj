@@ -66,11 +66,9 @@ SCHEDULE = {
 # Výsledky
 # ---------------------------------------------------------------------------
 # - Každá sezóna má vlastní tab v sekci výsledky.
-# - "rounds" = výsledky po kolech a univerzitách. Z toho jediného zdroje
-#   se odvozují desktopové sloupce (vlevo VUT, vpravo MUNI) i mobilní
-#   sloučené seznamy.
-# - "rounds_on_desktop": uvedené sezóny se na desktopu rozbalují po kolech
-#   ve dvou sloupcích; pro aktuálně běžící sezónu stačí false.
+# - Kolo, které má vyplněné "results", se zobrazí s výsledkovou listinou
+#   (desktop: sloupce VUT/MUNI, mobil: sloučený seznam). Kolo bez výsledků
+#   (nadcházející turnaj) se zobrazí jen jako odkaz na turnaj.
 # - Pozn.: pro třetí tab by bylo potřeba doplnit CSS pravidlo .tab-link-tab-3
 #   (srovnejte s .tab-link-tab-2 v assets/css/main.css).
 
@@ -125,10 +123,32 @@ JARO_ROUNDS = [
     },
 ]
 
-# Podzim 2026 zatím neproběhl — jako výplň tabu se zobrazují listiny
-# jarní sezóny (bez odkazů). Po odehrání kol nahraďte reálnými daty.
+# Podzim 2026 — nadcházející sezóna, 4 turnaje (Sborovna, start 17.30).
+# Výsledky doplňte do "results" po odehrání každého kola; dokud je kolo
+# prázdné, zobrazuje se jen odkaz na turnaj (registrace apod.).
 
-PODZIM_ROUNDS = [{"name": r["name"], "results": r["results"]} for r in JARO_ROUNDS]
+PODZIM_ROUNDS = [
+    {
+        "name": "1. kolo",
+        "url": "https://vysledky.cmbs.cz/tournaments/3471",
+        "results": {},
+    },
+    {
+        "name": "2. kolo",
+        "url": "https://vysledky.cmbs.cz/tournaments/3472",
+        "results": {},
+    },
+    {
+        "name": "3. kolo",
+        "url": "https://vysledky.cmbs.cz/tournaments/3473",
+        "results": {},
+    },
+    {
+        "name": "4. kolo",
+        "url": "https://vysledky.cmbs.cz/tournaments/3474",
+        "results": {},
+    },
+]
 
 SEASONS = [
     {
@@ -136,15 +156,12 @@ SEASONS = [
         "scores": {"muni": "543", "vut": "785"},
         "mvp": "Daniel Pelánek (VUT)",
         "rounds": JARO_ROUNDS,
-        "rounds_on_desktop": True,
     },
     {
-        # Podzim 2026 ještě neproběhl — skóre a MVP jsou zatímní (placeholder).
         "label": "Podzim 2026",
         "scores": {"muni": "0", "vut": "0"},
         "mvp": "tbd",
-        "rounds": PODZIM_ROUNDS,  # zatímní data z jarní sezóny
-        "rounds_on_desktop": False,
+        "rounds": PODZIM_ROUNDS,
     },
 ]
 

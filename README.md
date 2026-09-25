@@ -24,9 +24,12 @@ dist/         vygenerovaný web (nevkládat do gitu)
 
 ## Úprava obsahu
 
-- **výsledky, skóre, MVP** → `data.py` → `SEASONS` → `ROUND_RESULTS`
-  (mobile seznamy i desktopové sloupce se odvozují automaticky z jediného
-  zdroje dat)
+- **výsledky, skóre, MVP** → `data.py` → `SEASONS` a seznamy kol
+  (`JARO_ROUNDS` / `PODZIM_ROUNDS`; mobilní seznamy i desktopové sloupce
+  se odvozují automaticky z jednoho zdroje dat)
+- **kola nadcházející sezóny** → přidejte kolo s `"url"` a prázdnými
+  `"results"` — zobrazí se jako odkaz na turnaj; po odehrání doplňte
+  `"results"` a listina se zobrazí sama
 - **termíny, ceny, texty** → `data.py` → `SCHEDULE`, `INTRO_PARAGRAPHS`
 - **odkazy a loga** → `data.py` → `CONTACTS`
 - **strukturovaná data pro vyhledávače (JSON-LD)** → `data.py` → `JSONLD`
