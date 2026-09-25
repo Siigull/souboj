@@ -115,10 +115,17 @@ def render_score_block(uni_key, season):
     )
 
 
+def round_heading(round_):
+    """Nadpis kola — pokud kolo má URL, je to odkaz na turnaj."""
+    if round_.get("url"):
+        return f'<a href="{e(round_["url"])}" target="_blank" class="round-link">{e(round_["name"])}</a>'
+    return e(round_["name"])
+
+
 def render_round_block(round_, uni_key):
     rows = "".join(f'<p class="text-300">{e(r)}</p>' for r in round_["results"][uni_key])
     return (
-        f'<div class="flex-v tight desktop"><h3 class="display-2 txt-color dark">{e(round_["name"])}</h3>'
+        f'<div class="flex-v tight desktop"><h3 class="display-2 txt-color dark">{round_heading(round_)}</h3>'
         f'<div class="flex-v supertight">{rows}</div></div>'
     )
 
@@ -126,7 +133,7 @@ def render_round_block(round_, uni_key):
 def render_mobile_block(round_):
     rows = "".join(f'<p class="text-300">{e(r)}</p>' for r in mobile_rows(round_))
     return (
-        f'<div class="flex-v tight mobile"><h3 class="display-2 txt-color dark">{e(round_["name"])}</h3>'
+        f'<div class="flex-v tight mobile"><h3 class="display-2 txt-color dark">{round_heading(round_)}</h3>'
         f'<div class="flex-v supertight">{rows}</div></div>'
     )
 

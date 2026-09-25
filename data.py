@@ -53,7 +53,7 @@ SCHEDULE = {
     "herna": "Sborovna, Botanická 1, Brno",
     "dates": "4/10 • 25/10 • 15/11 • 6/12",
     "start": "start od 17.30",
-    "info_link": {"label": "podzim 2026", "href": "https://vysledky.cmbs.cz/"},
+    "info_link": {"label": "podzim 2026", "href": "https://vysledky.cmbs.cz/tournament-series/825"},
     "results_link": {"label": "jaro 2026", "href": "https://vysledky.cmbs.cz/tournament-series/812"},
     "prizes": [
         "Putovní pohár pro vítěznou univerzitu",
@@ -79,9 +79,13 @@ UNIVERSITIES = {
     "vut": {"label": "vut", "color": "vut"},
 }
 
-ROUND_RESULTS = [
+# Výsledky jednotlivých kol jarní sezóny 2026. Každé kolo odkazuje na
+# příslušný turnaj v systému vysledky.cmbs.cz.
+
+JARO_ROUNDS = [
     {
         "name": "1. kolo",
+        "url": "https://vysledky.cmbs.cz/tournaments/3225",
         "results": {
             "vut": ["1. Denis Novosád", "2. Daniel Pelánek", "4. Petr Nový"],
             "muni": ["3. Dominik Holiš", "5. Tomáš Kasza", "5. Matej Kubík"],
@@ -89,6 +93,7 @@ ROUND_RESULTS = [
     },
     {
         "name": "2. kolo",
+        "url": "https://vysledky.cmbs.cz/tournaments/3226",
         "results": {
             "vut": ["1. Denis Novosád", "2. Martin Benovič"],
             "muni": ["3. Ciarán O’Tuathail", "9. Zdeněk Vychodil"],
@@ -96,6 +101,7 @@ ROUND_RESULTS = [
     },
     {
         "name": "3. kolo",
+        "url": "https://vysledky.cmbs.cz/tournaments/3227",
         "results": {
             "vut": ["1. Martin Benovič", "3. Viktor Holanec", "3. Matyáš Telecký"],
             "muni": ["2. Erik Smetana", "5. Zdeněk Vychodil", "5. Tomáš Kasza"],
@@ -103,6 +109,7 @@ ROUND_RESULTS = [
     },
     {
         "name": "4. kolo",
+        "url": "https://vysledky.cmbs.cz/tournaments/3228",
         "results": {
             "vut": ["2. Daniel Pelánek", "4. Viktor Holanec", "5. František Roh"],
             "muni": ["1. Ciarán O’Tuathail", "3. Erik Smetana", "7. Matej Drblík"],
@@ -110,6 +117,7 @@ ROUND_RESULTS = [
     },
     {
         "name": "5. kolo",
+        "url": "https://vysledky.cmbs.cz/tournaments/3229",
         "results": {
             "vut": ["1. Daniel Pelánek", "2. Viktor Holanec"],
             "muni": ["5. Ciarán O’Tuathail", "6. Matej Kubík"],
@@ -117,12 +125,17 @@ ROUND_RESULTS = [
     },
 ]
 
+# Podzim 2026 zatím neproběhl — jako výplň tabu se zobrazují listiny
+# jarní sezóny (bez odkazů). Po odehrání kol nahraďte reálnými daty.
+
+PODZIM_ROUNDS = [{"name": r["name"], "results": r["results"]} for r in JARO_ROUNDS]
+
 SEASONS = [
     {
         "label": "Jaro 2026",
         "scores": {"muni": "543", "vut": "785"},
         "mvp": "Daniel Pelánek (VUT)",
-        "rounds": ROUND_RESULTS,
+        "rounds": JARO_ROUNDS,
         "rounds_on_desktop": True,
     },
     {
@@ -130,7 +143,7 @@ SEASONS = [
         "label": "Podzim 2026",
         "scores": {"muni": "0", "vut": "0"},
         "mvp": "tbd",
-        "rounds": ROUND_RESULTS,  # zatímní data z jarní sezóny
+        "rounds": PODZIM_ROUNDS,  # zatímní data z jarní sezóny
         "rounds_on_desktop": False,
     },
 ]
@@ -142,7 +155,7 @@ SEASONS = [
 CONTACTS = {
     "heading": "kontakty",
     "links": [
-        {"label": "vysledky.cmbs.cz", "href": "https://vysledky.cmbs.cz/tournament-series/812"},
+        {"label": "vysledky.cmbs.cz", "href": "https://vysledky.cmbs.cz/tournament-series/825"},
         {"label": "Facebook", "href": "https://www.facebook.com/KSUbrno/"},
     ],
     "organizer": {"label": "DELTA Billiard Brno", "href": "https://www.skdeltabilliard.cz/"},
@@ -223,7 +236,7 @@ JSONLD = {
         ),
     },
     "sameAs": [
-        "https://vysledky.cmbs.cz/tournament-series/812",
+        "https://vysledky.cmbs.cz/tournament-series/825",
         "https://www.facebook.com/KSUbrno/",
     ],
 }

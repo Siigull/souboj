@@ -2994,6 +2994,18 @@ textarea.w-input, textarea.w-select {
   color: var(--white);
 }
 
+.round-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 8px;
+}
+
+.round-link:hover {
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7.5px;
+}
+
 @media screen and (max-width: 991px) {
   .navbar {
     height: 60px;
