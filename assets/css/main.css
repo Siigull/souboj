@@ -2947,10 +2947,10 @@ textarea.w-input, textarea.w-select {
 
 .tab-link-tab-1 {
   border: 1px solid var(--dark);
-  background-color: var(--dark);
+  background-color: var(--white);
   height: 48px;
   font-family: var(--normal);
-  color: var(--white);
+  color: var(--dark);
   justify-content: center;
   align-items: center;
   padding-left: 16px;
@@ -2961,10 +2961,10 @@ textarea.w-input, textarea.w-select {
 
 .tab-link-tab-1.w--current {
   border: 1px solid var(--dark);
-  background-color: var(--white);
+  background-color: var(--dark);
   height: 48px;
   font-family: var(--normal);
-  color: var(--dark);
+  color: var(--white);
   border-radius: 0;
   justify-content: center;
   align-items: center;
@@ -2976,10 +2976,10 @@ textarea.w-input, textarea.w-select {
 
 .tab-link-tab-2 {
   border: 1px solid var(--dark);
-  background-color: var(--dark);
+  background-color: var(--white);
   height: 48px;
   font-family: var(--normal);
-  color: var(--white);
+  color: var(--dark);
   justify-content: center;
   align-items: center;
   padding-left: 16px;
@@ -2990,8 +2990,8 @@ textarea.w-input, textarea.w-select {
 
 .tab-link-tab-2.w--current {
   border: 1px solid var(--dark);
-  background-color: var(--white);
-  color: var(--dark);
+  background-color: var(--dark);
+  color: var(--white);
 }
 
 @media screen and (max-width: 991px) {

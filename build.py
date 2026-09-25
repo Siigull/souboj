@@ -151,7 +151,7 @@ def render_season_pane(season, index):
 
 def render_results():
     links = "".join(
-        '<a href="#tab-{i}" data-tab="{i}" role="tab" aria-selected="{sel}"{cur} class="tab-link-tab-{n} w-inline-block w-tab-link"><div>{label}</div></a>'.format(
+        '<a href="#tab-{i}" data-tab="{i}" role="tab" aria-selected="{sel}" class="tab-link-tab-{n} w-inline-block w-tab-link{cur}"><div>{label}</div></a>'.format(
             i=i,
             n=i + 1,
             sel="true" if i == 0 else "false",
