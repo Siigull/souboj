@@ -226,8 +226,7 @@ CONTACTS = {
     "heading": "kontakty",
     "links": [
         {"label": "vysledky.cmbs.cz", "href": "https://vysledky.cmbs.cz/tournament-series/825"},
-        {"label": "Facebook", "href": "https://www.facebook.com/KSUbrno/"},
-        {"label": "Telefon", "href": "+420 732 635 862"}
+        {"label": "Facebook", "href": "https://www.facebook.com/KSUbrno/"}
     ],
     "organizer": {"label": "DELTA Billiard Brno", "href": "https://www.skdeltabilliard.cz/"},
     "venue": {"label": "Sborovna, Botanická 1, Brno", "href": "https://maps.app.goo.gl/g8CgVayHXHxy88f68"},
