@@ -26,9 +26,9 @@ SITE = {
 
 NAV = [
     {"label": "Info", "href": "#info"},
-    {"label": "termíny", "href": "#terminy"},
-    {"label": "skóre", "href": "#skore"},
-    {"label": "kontakt", "href": "#kontakty"},
+    {"label": "Termíny", "href": "#terminy"},
+    {"label": "Skóre", "href": "#skore"},
+    {"label": "Kontakt", "href": "#kontakty"},
 ]
 
 INTRO_HEADING = "bojujte za svou univerzitu"
